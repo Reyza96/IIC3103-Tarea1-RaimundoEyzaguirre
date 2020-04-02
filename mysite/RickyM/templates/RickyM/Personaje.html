@@ -1,0 +1,61 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'RickyM/style2.css' %}">
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+  h1 {
+    font-family: garamond;
+    font-size: 200%;
+  }
+  </style>
+    <meta charset="utf-8">
+    <title>Las increibles aventuras de ricardo al abuelo molon y su nieto moratdelo</title>
+  </head>
+  <body>
+    <h1>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</h1>
+    <div class="container">
+    <div class="floatLeft">
+    <h2>Información Personaje</h2>
+    <table>
+      <tr>
+        <th><img src={{personaje.image}}></th>
+      </tr>
+      <tr>
+        <th>Nombre: {{personaje.name}}</th>
+      </tr>
+      <tr>
+        <th>Status: {{personaje.status}}</th>
+      </tr>
+      <tr>
+        <th>Especie: {{personaje.species}}</th>
+      </tr>
+      <tr>
+        <th>Tipo: {{personaje.type}}</th>
+      </tr>
+      <tr>
+        <th>Genero:{{personaje.gender}}</th>
+      </tr>
+      <tr>
+        <th>Origen: <a href="/Location/{{ personaje.origin.0 }}/">{{personaje.origin.1}}</a></th>
+      </tr>
+      <tr>
+        <th>Lugar actual: <a href="/Location/{{ personaje.location.0 }}/">{{personaje.location.1}}</a></th>
+      </tr>
+    </table>
+    </div>
+
+    <div class="floatRight">
+    <h2>Episodios</h2>
+    <table border="1">
+      {% for episodio in personaje.episode %}
+        <tr>
+          <th><a href="/Episode/{{ episodio.0 }}/">{{episodio.1}}</a></th>
+        </tr>
+      {% endfor %}
+    </table>
+    </div>
+    </div>
+  </body>
+</html>

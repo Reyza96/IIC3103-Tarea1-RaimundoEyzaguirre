@@ -1,0 +1,37 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'RickyM/style.css' %}">
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+  h1 {
+    font-family: garamond;
+    font-size: 200%;
+  }
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+    <meta charset="utf-8">
+    <title>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</title>
+  </head>
+  <body>
+    <h1>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</h1>
+    <table style="width:90%">
+      <caption>Lista de Episodios</caption>
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Codigo</th>
+      </tr>
+      {% for epi in lista_episodios %}
+        <tr>_
+          <th><a href="/Episode/{{ epi.id }}/">{{epi.name}}</a></th>
+          <th>{{epi.air_date}}</th>
+          <th>{{epi.episode}}</th>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+.floatLeft { width: 60%; float: left; }
+.floatRight {width: 40%; float: right; }
+.container { overflow: hidden; }
+h1 {
+  color: black;
+}
+h2 {
+  font-family: garamond;
+  font-size: 120%;
+}
+
+p {
+  color: red;
+}
