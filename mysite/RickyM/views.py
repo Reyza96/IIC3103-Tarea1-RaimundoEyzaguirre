@@ -23,22 +23,46 @@ def index(request):
 
 def Characters_page(request, Characters_id):
     respuesta = personaje(urlu + "character/" + str(Characters_id))
-    loc = lugar(respuesta["origin"]["url"])
-    origen = (loc["id"], loc["name"])
-
-    locf = lugar(respuesta["location"]["url"])
-    actual = (locf["id"], locf["name"])
     lista_episodios = []
 
     for i in respuesta["episode"]:
         epi = episodio(i)
         lista_episodios.append((epi["id"], epi["name"]))
 
-    character = (Characters(id=respuesta["id"], name=respuesta["name"], status=respuesta["status"],
-                            species=respuesta["species"], type=respuesta["type"],
-                            gender=respuesta["gender"], origin=origen, image=respuesta["image"],
-                            location=actual, episode=lista_episodios,
-                            url=respuesta["url"], created=respuesta["created"]))
+    if respuesta["origin"]["url"] != "":
+        loc = lugar(respuesta["origin"]["url"])
+        origen = (loc["id"], loc["name"])
+
+        if respuesta["location"]["url"] != "":
+            locf = lugar(respuesta["location"]["url"])
+            actual = (locf["id"], locf["name"])
+            character = (Characters(id=respuesta["id"], name=respuesta["name"], status=respuesta["status"],
+                                    species=respuesta["species"], type=respuesta["type"],
+                                    gender=respuesta["gender"], origin=origen, image=respuesta["image"],
+                                    location=actual, episode=lista_episodios,
+                                    url=respuesta["url"], created=respuesta["created"]))
+        else:
+            character = (Characters(id=respuesta["id"], name=respuesta["name"], status=respuesta["status"],
+                                    species=respuesta["species"], type=respuesta["type"],
+                                    gender=respuesta["gender"], origin=origen, image=respuesta["image"],
+                                    episode=lista_episodios,
+                                    url=respuesta["url"], created=respuesta["created"]))
+
+    elif respuesta["location"]["url"] != "":
+        locf = lugar(respuesta["location"]["url"])
+        actual = (locf["id"], locf["name"])
+        character = (Characters(id=respuesta["id"], name=respuesta["name"], status=respuesta["status"],
+                                species=respuesta["species"], type=respuesta["type"],
+                                gender=respuesta["gender"], image=respuesta["image"],
+                                location=actual, episode=lista_episodios,
+                                url=respuesta["url"], created=respuesta["created"]))
+    else:
+        character = (Characters(id=respuesta["id"], name=respuesta["name"], status=respuesta["status"],
+                                species=respuesta["species"], type=respuesta["type"],
+                                gender=respuesta["gender"], image=respuesta["image"],
+                                episode=lista_episodios,
+                                url=respuesta["url"], created=respuesta["created"]))
+
     context = {
         'personaje': character
     }
@@ -56,7 +80,7 @@ def Location_page(request, Location_id):
     context = {
         'lugar': location
     }
-    return render(request, 'RickyM/lugar.html', context)
+    return render(request, 'RickyM/Lugar.html', context)
 
 
 def Episode_page(request, Episode_id):
