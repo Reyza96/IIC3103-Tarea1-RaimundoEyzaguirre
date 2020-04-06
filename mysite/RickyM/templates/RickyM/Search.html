@@ -1,0 +1,59 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'RickyM/style.css' %}">
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+  h1 {
+    font-family: garamond;
+    font-size: 200%;
+  }
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+    <meta charset="utf-8">
+    <title>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</title>
+  </head>
+  <body>
+    <form action="{%url 'Search' %}" method="GET" value="{{request.GET.q}}">
+    <input type="text" name="q" value="{{request.GET.q}}" placeholder="search"/>
+    <input type="submit" name="submit" value="Search"/>
+    </form>
+    <h1>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</h1>
+    <h2>Lista de Personajes</h2>
+    <table style="width:40%">
+      <tr>
+        <th>Nombre</th>
+      </tr>
+      {% for per in lista_personajes %}
+        <tr>_
+          <th><a href="/Character/{{ per.id }}/">{{per.name}}</a></th>
+        </tr>
+      {% endfor %}
+    </table>
+    <table style="width:40%" style="float:left;">
+      <caption>Lista de Episodios</caption>
+      <tr>
+        <th>Nombre</th>
+      </tr>
+      {% for epi in lista_episodios %}
+        <tr>_
+          <th><a href="/Episode/{{ epi.id }}/">{{epi.name}}</a></th>
+        </tr>
+      {% endfor %}
+    </table>
+    <table style="width:40%" style="float:left;">
+      <caption>Lista de Lugares</caption>
+      <tr>
+        <th>Nombre</th>
+      </tr>
+      {% for lug in lista_lugares %}
+        <tr>_
+          <th><a href="/Location/{{ lug.id }}/">{{lug.name}}</a></th>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

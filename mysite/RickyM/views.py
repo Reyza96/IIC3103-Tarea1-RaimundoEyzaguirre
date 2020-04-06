@@ -4,7 +4,7 @@ import json
 from .models import Characters, Location, Episode
 import requests
 
-urlu = "https://rickandmortyapi.com/api/"
+urlu = "https://integracion-rick-morty-api.herokuapp.com/api/"
 
 def index(request):
     respuesta = todos_episodios()
@@ -99,12 +99,39 @@ def Episode_page(request, Episode_id):
     return render(request, 'RickyM/Episodio.html', context)
 
 
+def Search(request):
+    if request.method=='GET':
+        query = request.GET.get('q')
+    else:
+        query = ""
+    personajes = personajes_nombre(query)
+    lista_per= []
+    if personajes != "":
+        for per in personajes:
+            lista_per.append(Characters(id=per["id"], name=per["name"]))
+    lugares = lugares_nombre(query)
+    lista_lug = []
+    if lugares != "":
+        for lug in lugares:
+            lista_lug.append(Location(id=lug["id"], name=lug["name"]))
+    episodios = episodios_nombre(query)
+    lista_epi = []
+    if episodios != "":
+        for epi in episodios:
+            lista_epi.append(Episode(id=epi["id"], name=epi["name"]))
+    context = {
+        'lista_episodios': lista_epi,
+        'lista_personajes': lista_per,
+        'lista_lugares': lista_lug,
+    }
+    return render(request, 'RickyM/Search.html', context)
 
 
 def api_request(url):
     response = requests.get(url)
     data = json.loads(response.text.encode("utf-8"))
     return data
+
 
 def todos_episodios():
     url = urlu + "episode/"
@@ -115,13 +142,54 @@ def todos_episodios():
         data_final = data_final + data["results"]
     return data_final
 
+
+def episodios_nombre(query):
+    url = urlu + "episode/?name=" + query
+    data = api_request(url)
+    if data != {"error":"There is nothing here"}:
+        data_final = data["results"]
+        for i in range(1, data["info"]["pages"]):
+            data = api_request(data["info"]["next"])
+            data_final = data_final + data["results"]
+    else:
+        data_final = ""
+    return data_final
+
+
+def personajes_nombre(query):
+    url = urlu + "character/?name=" + query
+    data = api_request(url)
+    if data != {"error":"There is nothing here"}:
+        data_final = data["results"]
+        for i in range(1, data["info"]["pages"]):
+            data = api_request(data["info"]["next"])
+            data_final = data_final + data["results"]
+    else:
+        data_final = ""
+    return data_final
+
+
+def lugares_nombre(query):
+    url = urlu + "location/?name=" + query
+    data = api_request(url)
+    if data != {"error":"There is nothing here"}:
+        data_final = data["results"]
+        for i in range(1, data["info"]["pages"]):
+            data = api_request(data["info"]["next"])
+            data_final = data_final + data["results"]
+    else:
+        data_final = ""
+    return data_final
+
 def episodio(url):
     data = api_request(url)
     return data
 
+
 def personaje(url):
     data = api_request(url)
     return data
+
 
 def lugar(url):
     data = api_request(url)

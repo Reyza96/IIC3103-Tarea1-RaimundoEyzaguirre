@@ -17,12 +17,13 @@
     <title>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</title>
   </head>
   <body>
-    <div class="topnav">
-      <input type="text" placeholder="Search..">
-    </div>
+      <form action="{%url 'Search' %}" method="GET" value="{{request.GET.q}}">
+      <input type="text" name="q" value="{{request.GET.q}}" placeholder="search"/>
+      <input type="submit" name="submit" value="Search"/>
+      </form>
     <h1>Las increibles aventuras de ricardo el abuelo molon y su nieto mortadelo</h1>
+    <h2>Lista de Episodios</h2>
     <table style="width:90%">
-      <caption>Lista de Episodios</caption>
       <tr>
         <th>Nombre</th>
         <th>Fecha</th>

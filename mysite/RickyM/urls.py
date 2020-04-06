@@ -11,5 +11,7 @@ urlpatterns = [
 
     path('Episode/<int:Episode_id>/', views.Episode_page, name='Episode_page'),
 
-]
+    path('Search/', views.Search, name='Search'),
 
+
+]
